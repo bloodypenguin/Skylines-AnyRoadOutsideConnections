@@ -38,11 +38,11 @@ namespace AnyRoadOutsideConnections
 
         private static void OnPostInitialization(NetInfo info)
         {
-            var roadAi = (RoadBaseAI)info?.m_netAI;
-            if (roadAi == null)
+            if (info == null || !(info.m_netAI is RoadBaseAI))
             {
                 return;
             }
+            var roadAi = (RoadBaseAI) info.m_netAI;
             if (roadAi.m_outsideConnection == null && _connection == null)
             {
                 InfoQueue.Enqueue(roadAi);
