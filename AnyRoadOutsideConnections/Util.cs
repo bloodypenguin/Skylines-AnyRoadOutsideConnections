@@ -7,28 +7,36 @@ using ColossalFramework.UI;
 using ICities;
 using UnityEngine;
 
-namespace MoreNetworkStuff
+namespace AnyRoadOutsideConnections
 {
     public static class Util
     {
         public static Type FindType(string className)
         {
-            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            try
             {
-                try
+                foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
                 {
-                    var types = assembly.GetTypes();
-                    foreach (var type in types.Where(type => type.Name == className))
+                    try
                     {
-                        return type;
+                        var types = assembly.GetTypes();
+                        foreach (var type in types.Where(type => type.Name == className))
+                        {
+                            return type;
+                        }
+                    }
+                    catch
+                    {
+                        // ignored
                     }
                 }
-                catch
-                {
-                    // ignored
-                }
+                return null;
             }
-            return null;
+            catch
+            {
+                // ignored
+                return null;
+            }
         }
 
         public static bool IsModActive(string modName)
